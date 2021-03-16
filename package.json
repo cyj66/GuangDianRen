@@ -7,8 +7,12 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "core-js": "^2.6.5",
-    "vue": "^2.6.10"
+    "normalize.css": "^8.0.1",
+    "vue": "^2.6.10",
+    "vue-router": "^3.5.1",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.12.0",

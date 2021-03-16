@@ -1,28 +1,38 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <main-nav-bar v-show="isShowNavBar" />
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
+    <back-top></back-top>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+  import MainNavBar from 'components/content/mainNavbar/MainNavBar.vue'
+  import BackTop from 'components/content/backTop/BackTop.vue'
 
-export default {
-  name: 'app',
-  components: {
-    HelloWorld
+  export default {
+    name: 'app',
+    components: {
+      MainNavBar,BackTop
+    },
+    computed:{
+      isShowNavBar(){
+        let showPath=['/home','/news','/enterprise','/message','/user']
+        if(showPath.indexOf(this.$route.path)!==-1)
+        return true
+        else return false
+      }
+    }
   }
-}
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style scoped>
+  /* @import两种引入方式 */
+  @import '~assets/css/normalize.css';
+  @import '~assets/css/base.css';
+  @import url(~assets/font/iconfont.css);
+
+  #app {}
 </style>
