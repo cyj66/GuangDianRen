@@ -10,7 +10,7 @@
 
 <script>
   import MainNavBar from 'components/content/mainNavbar/MainNavBar.vue'
-  import BackTop from 'components/content/backTop/BackTop.vue'
+  import BackTop from 'components/common/backTop/BackTop.vue'
 
   export default {
     name: 'app',
