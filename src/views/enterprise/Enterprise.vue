@@ -6,7 +6,11 @@
 
 <script>
   import Enterprise from 'components/content/enterprise/Enterprise.vue'
+
   import {getEnterpriseData} from 'network/enterpriseRequest.js'
+
+   import {keepScrollPosition} from 'common/mixin.js'
+
 
   export default {
     components: {
@@ -22,7 +26,8 @@
         //console.log(res);
         this.enterpriseData=res
       })
-    }
+    },
+    mixins:[keepScrollPosition]
   }
 </script>
 

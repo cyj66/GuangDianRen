@@ -1,18 +1,16 @@
 <template>
-    <a href="">
-        <div class="item">
-            <div class="item-img">
-                <img :src="newsListItem.image" :alt="newsListItem.title">
-            </div>
-            <div class="item-artical">
-                <h3>{{newsListItem.title}}</h3>
-                <p>{{newsListItem.content}}</p>
-            </div>
-            <i class="iconfont" @click.prevent="iClick" :class="{iOrange:isOrange}">&#xe66f;</i>
-            <span class="news-item-time">{{newsListItem.date}}</span>
+    <div class="item" v-show="isNewsItemShow()">
+        <div class="item-img">
+            <img :src="newsListItem.image" :alt="newsListItem.title">
         </div>
-
-    </a>
+        <div class="item-artical" @click="newsItemClick">
+            <h3>{{newsListItem.title}}</h3>
+            <p v-html="newsListItem.content"></p>
+        </div>
+        <i class="iconfont" @click.prevent="iClick" @selectstart="selectStart($event)"
+            :class="{iOrangered:isOrangered}">&#xe66f;</i>
+        <span class="news-item-date">{{newsListItem.date}}</span>
+    </div>
 </template>
 
 <script>
@@ -23,8 +21,22 @@
 
     export default {
         components: {},
-        props:{
-            newsListItem:Object
+        props: {
+            newsListItem: Object
+        },
+        methods: {
+            newsItemClick() {
+                this.$router.push('/newsdetail/' + this.newsListItem.id);
+                //this.$bus.$emit("getNewsListItem", this.newsListItem.id);
+            },
+            selectStart(e) {
+                e.preventDefault()
+            },
+            isNewsItemShow() {
+                if (this.newsListItem.isSchool === this.$store.state.isSchool)
+                    return true
+                else return false
+            }
         },
         mixins: [collectMixin]
 
@@ -39,20 +51,23 @@
         border: 2px solid var(--color-shadow);
         border-radius: 10px;
         padding: 25px 10px 10px 10px;
-        margin: 20px 5px 0 5px;
+        margin: 20px 20px 0 5px;
         background-color: #fff;
+        float: left;
     }
 
     .item-img img {
         margin-right: 10px;
+        margin-top:10px;
         float: left;
         width: 100px;
-        height: 100px;
+        height:80px;
     }
 
     .item-artical {
         float: left;
         width: 290px;
+        cursor: pointer;
     }
 
     h3 {
@@ -86,15 +101,15 @@
         cursor: default;
     }
 
-    .iOrange {
-        color: orange
+    .iOrangered {
+        color: orangered
     }
 
-    .news-item-time {
+    .news-item-date {
         position: absolute;
         top: 5px;
         right: 15px;
         font-size: 14px;
-        color: #333;
+        color: #666;
     }
 </style>

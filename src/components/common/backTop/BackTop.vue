@@ -50,6 +50,7 @@
     height: 50px;
     border-radius: 50%;
     border: 5px solid var(--color-school);
+    background-color:#fff;
     text-align: center;
     line-height: 50px;
     box-shadow: 2px 2px 5px 2px var(--color-shadow);

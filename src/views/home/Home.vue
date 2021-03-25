@@ -8,6 +8,8 @@
 <script>
   import HomeSwiper from './childComps/HomeSwiper'
   import HomeTopic from './childComps/HomeTopic'
+
+  import {keepScrollPosition} from 'common/mixin.js'
   
   export default {
     components: {
@@ -33,7 +35,8 @@
           }
         ]
       }
-    }
+    },
+    mixins:[keepScrollPosition]
   }
 </script>
 

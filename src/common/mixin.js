@@ -1,12 +1,26 @@
 export const collectMixin={
     data() {
         return{
-        isOrange: false
+        isOrangered: false
         }
       },
       methods: {
         iClick() {
-          this.isOrange = !this.isOrange
+          this.isOrangered = !this.isOrangered
         }
       }
+}
+
+export const keepScrollPosition={
+    data(){
+      return {
+        scrollY:0
+      }
+    },
+    activated(){
+      window.scroll(0,this.scrollY)
+    },
+    deactivated(){
+      this.scrollY=window.pageYOffset;
+    }
 }

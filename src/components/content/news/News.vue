@@ -1,7 +1,7 @@
 <template>
   <div class="news">
       <news-item class="news-item" v-for="(value,index) in newsList" 
-      :key=index :news-list-item="value" ></news-item>
+      :key=index :news-list-item="value"></news-item>
   </div>
 </template>
 
@@ -13,17 +13,13 @@ export default {
   },
   props:{
     newsList:Array
+  },
+  methods:{
+
   }
 }
 </script>
  
 <style scoped>
-.news{
-  display: flex;
-  flex-wrap:wrap;
-  justify-content: space-between;
-}
-.news-item{
-  flex:1;
-}
+
 </style>

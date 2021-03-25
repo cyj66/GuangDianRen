@@ -4,7 +4,8 @@
       <img :src="enterpriseValue.image" :alt="enterpriseValue.name">
     </div>
     <h4>{{enterpriseValue.name}}</h4>
-    <i class="iconfont" @click.prevent="iClick" :class="{iOrange:isOrange}">&#xe66f;</i>
+    <i class="iconfont" @click.prevent="iClick" 
+    :class="{iOrangered:isOrangered}">&#xe66f;</i>
   </a>
 </template>
 
@@ -63,7 +64,7 @@
     cursor: default;
   }
 
-  .iOrange {
-    color: orange
+  .iOrangered {
+    color: orangered
   }
 </style>

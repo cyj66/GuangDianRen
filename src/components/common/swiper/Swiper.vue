@@ -22,7 +22,7 @@
       //每一次滚动的间隔
       interval: {
         type: Number,
-        default: 3000
+        default: 2000
       },
       //一次滚动的时长
       animDuration: {

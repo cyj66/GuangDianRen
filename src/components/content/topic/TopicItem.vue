@@ -24,10 +24,10 @@
                 console.log(e.target)
                 for (let i in lis) {
                     if (e.target === lis[i]) {
-                        if (e.target.style.color === 'red') {
+                        if (e.target.style.color === 'orangered') {
                             e.target.style.color = ''
                         } else {
-                            e.target.style.color = 'red'
+                            e.target.style.color = 'orangered'
                         }
                     }
                 }
@@ -92,6 +92,8 @@
 
     .topic-item .topic-icon .iconfont {
         font-size: 18px;
+        font-weight:700;
+        color:var(--color-school);
         cursor: pointer;
     }
 
@@ -104,10 +106,5 @@
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
         color: #666
-    }
-
-    .topic-item .topic-answer span {
-        font-weight: 700;
-        color: var(--color-school);
     }
 </style>

@@ -1,7 +1,7 @@
 <template>
-  <div class="switch-control" @click="switchControl">
+  <div class="switch-control" @click="switchControl" @selectstart=selectStart($event)>
     <i :class="{'i-toggle':isIToggle}"></i>
-    <span :class="{'span-toggle':isSpanToggle}">{{switchSpan[index]}}</span>
+    <span :class="{'span-toggle':isSpanToggle}">{{switchSpan[currentIndex]}}</span>
   </div>
 </template>
 
@@ -10,26 +10,30 @@
     components: {},
     data() {
       return {
-        switchSpan: ['校内', '全球'],
-        index: 0,
+        currentIndex: 0,
         isIToggle:false,
         isSpanToggle:false,
       }
     },
+    props:{
+        switchSpan:Array
+    },
     methods: {
       switchControl() {
-        this.index = (this.index === 0) ? 1 : 0;
-        
+        this.$store.commit("oppositeIsSchool");
+        this.currentIndex = (this.currentIndex === 0) ? 1 : 0;
         // let i=document.querySelector('.switch-control i');
         // let span=document.querySelector('.switch-control span');
         // let switchControl=document.querySelector('.switch-control');
         // i.style.left=(i.style.left==="5px")?"50px":"5px"
         // span.style.left=(span.style.left==="30px")?"10px":"30px";
         // switchControl.style.backgroundColor=(switchControl.style.backgroundColor==="var(--color-school)")?"gray":"var(--color-school)"
-
         this.isDivToggle=!this.isDivToggle;
         this.isIToggle=!this.isIToggle;
         this.isSpanToggle=!this.isSpanToggle;
+      },
+      selectStart(e){
+        e.preventDefault()
       }
     },
     mounted() {

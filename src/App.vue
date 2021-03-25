@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <main-nav-bar v-show="isShowNavBar" />
-    <keep-alive>
+    <keep-alive exclude="NewsDetail">
       <router-view></router-view>
     </keep-alive>
     <back-top></back-top>
@@ -10,6 +10,7 @@
 
 <script>
   import MainNavBar from 'components/content/mainNavbar/MainNavBar.vue'
+
   import BackTop from 'components/common/backTop/BackTop.vue'
 
   export default {

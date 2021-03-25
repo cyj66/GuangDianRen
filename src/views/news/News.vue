@@ -1,7 +1,7 @@
 <template>
   <div class="w2">
     <news :news-list="newsList"></news>
-    <switch-control @click.native="newsSwitch"></switch-control>
+    <switch-control @click.native="newsSwitch" :switch-span="switchSpan"></switch-control>
   </div>
 </template>
 
@@ -18,6 +18,7 @@
         bgColor:'#ccc',
         body:null,
         newsList:[],
+        switchSpan:['校内','全球']
       }
     },
     created(){
