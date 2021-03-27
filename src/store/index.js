@@ -4,12 +4,14 @@ Vue.use(Vuex)
 
 const store=new Vuex.Store({
     state:{
-        isSchool:true
+        isSchool:true,
+       
     },
     mutations:{
         oppositeIsSchool(state){
             state.isSchool=!state.isSchool
-        }
+        },
+        
     }
 })
 

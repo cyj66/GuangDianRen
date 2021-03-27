@@ -5,20 +5,15 @@
             <ul>
                 <li>
                     <label for="Username">创建用户名：</label>
+                    <!-- autocomplete="off"清除历史记录 -->
                     <input type="text" id="Username" name="User_Name" @input="getUsernameValueAndJudge()"
                         @focus="showUsernameTag()" autocomplete="off">
                 </li>
 
                 <li>
-                    <p v-if="usernameSuccess" class="username-success">
-                        <i class="success-icon"></i>
-                        输入符合要求
-                    </p>
-                    <p v-else-if="usernameError" class="username-error">
-                        <i class="error-icon"></i>
-                        输入不符要求
-                    </p>
-                    <p v-else>请输入5-20位的数字或字母</p>
+                    <p v-if="usernameSuccess" class="username-success">输入符合要求</p>
+                    <p v-else-if="usernameError" class="username-error">输入不符要求</p>
+                    <p v-else>请输入长度为5-20位的数字或字母</p>
                 </li>
 
                 <li>
@@ -28,32 +23,20 @@
                 </li>
 
                 <li>
-                    <p v-if="passwordSuccess" class="password-success">
-                        <i class="success-icon"></i>
-                        输入符合要求
-                    </p>
-                    <p v-else-if="passwordError" class="password-error">
-                        <i class="error-icon"></i>
-                        输入不符要求
-                    </p>
-                    <p v-else>请输入5-20位的数字或字母</p>
+                    <p v-if="passwordSuccess" class="password-success">输入符合要求</p>
+                    <p v-else-if="passwordError" class="password-error">输入不符要求</p>
+                    <p v-else>请输入长度为5-20位的数字或字母</p>
                 </li>
 
                 <li>
                     <label for="Password2">确认密码：</label>
                     <input type="password" id="Password2" name="Pass_Word2" @input="judgeIsSame()"
-                        @focus="showIsSameTag()" autocomplete="off">
+                        @focus="showInputAgainTag()" autocomplete="off">
                 </li>
 
                 <li>
-                    <p v-if="isSame" class="password-success">
-                        <i class="success-icon"></i>
-                        密码确认一致
-                    </p>
-                    <p v-else-if="isNotSame" class="password-error">
-                        <i class="error-icon"></i>
-                        密码确认不一致
-                    </p>
+                    <p v-if="isSame" class="password-success">密码确认一致</p>
+                    <p v-else-if="isNotSame" class="password-error">密码确认不一致</p>
                     <p v-else>请再次输入密码</p>
                 </li>
                 <li>
@@ -106,11 +89,10 @@
                 if (this.passwordValue === this.passwordValue2) this.isSame = true
                 else if (this.passwordValue !== this.passwordValue2) this.isNotSame = true
             },
-            showIsSameTag() {
+            showInputAgainTag() {
                 this.isSame = false
                 this.isNotSame = false
             }
-
         },
         computed: {
             isDisabled() {
@@ -172,27 +154,6 @@
     .username-error,
     .password-error {
         color: red;
-    }
-
-
-    .error-icon,
-    .success-icon {
-        display: inline-block;
-        width: 13px;
-        height: 13px;
-        /* 用在图片的css代码中，用于与文字对齐 */
-        vertical-align: middle;
-        margin: 0 5px;
-    }
-
-    .error-icon {
-        background: url(~assets/img/form/error.png);
-        background-size: contain;
-    }
-
-    .success-icon {
-        background: url(~assets/img/form/success.png);
-        background-size: contain;
     }
 
     input[type="submit"] {

@@ -5,48 +5,34 @@
             <ul>
                 <li class="username">
                     <label for="Username">用户名：</label>
-         <!-- autocomplete="off"让input表单输入框不记录输入过信息 -->
-
                     <input type="text" id="Username" name="User_Name" 
-                    @blur="getUsernameValueAndJudge()"
+                    @input="getUsernameValueAndJudge()"
                         @focus="showUsernameTag()"
                         autocomplete="off">
                 </li>
 
                 <li class="username-tag">
-                    <p v-if="usernameSuccess" class="username-success">
-                        <i class="success-icon"></i>
-                        输入符合要求
-                    </p>
-                    <p v-else-if="usernameError" class="username-error">
-                        <i class="error-icon"></i>
-                        输入不符要求
-                    </p>
-                    <p v-else>请输入5-20位的数字或字母</p>
+                    <p v-if="usernameSuccess" class="username-success">输入符合要求</p>
+                    <p v-else-if="usernameError" class="username-error">输入不符要求</p>
+                    <p v-else>请输入长度为5-20位的数字或字母</p>
                 </li>
 
                 <li class="password">
                     <label for="Password">密码：</label>
                     <input type="password" id="Password" name="Pass_Word" 
-                    @blur="getPasswordValueAndJudge()"
+                    @input="getPasswordValueAndJudge()"
                         @focus="showPasswordTag()"
                         autocomplete="off">
                 </li>
 
                 <li class="password-tag">
-                    <p v-if="passwordSuccess" class="password-success">
-                        <i class="success-icon"></i>
-                        输入符合要求
-                    </p>
-                    <p v-else-if="passwordError" class="password-error">
-                        <i class="error-icon"></i>
-                        输入不符要求
-                    </p>
-                    <p v-else>请输入5-20位的数字或字母</p>
+                    <p v-if="passwordSuccess" class="password-success">输入符合要求</p>
+                    <p v-else-if="passwordError" class="password-error">输入不符要求</p>
+                    <p v-else>请输入正确的密码</p>
                 </li>
             </ul>
             <div class="login-bottom">
-                <input type="submit" value="登录" :disabled="disabledSubmit()">
+                <input type="submit" value="登录">
                 <div class="remember"><input type="checkbox">记住我</div>
                 <p>没有账号?去<router-link to="/register"><span>注册</span></router-link>
                 </p>
@@ -60,14 +46,35 @@
     export default {
         data() {
             return {
-
+                usernameValue: '',
+                usernameSuccess: false,
+                usernameError: false,
+                passwordValue: '',
+                passwordSuccess: false,
+                passwordError: false,
+                reg: /^[0-9a-zA-Z]{5,20}$/
             }
         },
 
         methods: {
            
-            disabledSubmit(){
-                
+            getUsernameValueAndJudge() {
+                this.usernameValue = document.querySelector('#Username').value
+                if (this.reg.test(this.usernameValue)) this.usernameSuccess = true
+                else if (!this.reg.test(this.usernameValue)) this.usernameError = true
+            },
+            showUsernameTag() {
+                this.usernameSuccess = false
+                this.usernameError = false
+            },
+            getPasswordValueAndJudge() {
+                this.passwordValue = document.querySelector('#Password').value
+                if (this.reg.test(this.passwordValue)) this.passwordSuccess = true
+                else if (!this.reg.test(this.passwordValue)) this.passwordError = true
+            },
+            showPasswordTag() {
+                this.passwordSuccess = false
+                this.passwordError = false
             }
         },
     }
@@ -124,27 +131,15 @@
         border: 1px solid var(--color-school);
         padding: 0 5px;
     }
-
-    .error-icon,
-    .success-icon {
-        display: inline-block;
-        width: 13px;
-        height: 13px;
-        /* 用在图片的css代码中，用于与文字对齐 */
-        vertical-align: middle;
-        margin: 0 5px;
+    .username-success,
+    .password-success {
+        color: green;
     }
 
-    .error-icon {
-        background: url(~assets/img/form/error.png);
-        background-size: contain;
+    .username-error,
+    .password-error {
+        color: red;
     }
-
-    .success-icon {
-        background: url(~assets/img/form/success.png);
-        background-size: contain;
-    }
-
     input[type="submit"] {
         margin-bottom: 10px;
         width: 150px;
