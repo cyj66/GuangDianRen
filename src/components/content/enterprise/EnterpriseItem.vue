@@ -1,23 +1,41 @@
 <template>
-  <a :href="enterpriseValue.link" :title="enterpriseValue.info">
+  <a :href="enterpriseListItem.link" :title="enterpriseListItem.info">
     <div class="item-img">
-      <img :src="enterpriseValue.image" :alt="enterpriseValue.name">
+      <img :src="enterpriseListItem.image" :alt="enterpriseListItem.name">
     </div>
-    <h4>{{enterpriseValue.name}}</h4>
-    <i class="iconfont" @click.prevent="iClick" 
-    :class="{iOrangered:isOrangered}">&#xe66f;</i>
+    <h4>{{enterpriseListItem.name}}</h4>
+    <i class="iconfont" :class="{isCollect:isCollect}" @click.prevent="collectEnterprise()">&#xe66f;</i>
   </a>
 </template>
 
 <script>
-  import {
-    collectMixin
-  } from 'common/mixin.js'
-
+import {saveEnterpriseCollect,removeEnterpriseCollect} from "network/enterpriseRequest.js"
   export default {
-    mixins: [collectMixin],
-    props:{
-      enterpriseValue:Object
+    data() {
+      return {
+        isCollect: false
+      }
+    },
+    props: {
+      enterpriseListItem: Object
+    },
+    created() {
+      this.isCollect = this.$store.state.enterpriseCollectList.some(value => value.enterpriseId === this.enterpriseListItem.enterpriseId)
+    },
+    methods:{
+      collectEnterprise(){
+        if(this.isCollect===false){
+          saveEnterpriseCollect(this.enterpriseListItem.enterpriseId,this.$store.state.username)
+          .then(this.isCollect=true)
+          this.$toast.show("收藏成功!")
+        }
+        else{
+          removeEnterpriseCollect(this.enterpriseListItem.enterpriseId,this.$store.state.username)
+          .then(this.isCollect=false)
+          this.$toast.show("取消收藏成功!")
+
+        }
+      }
     }
   }
 </script>
@@ -29,7 +47,7 @@
     width: 180px;
     height: 230px;
     margin: 18px;
-    padding:10px;
+    padding: 10px;
     text-align: center;
     border: 2px solid var(--color-school);
     overflow: hidden;
@@ -61,10 +79,11 @@
     top: 0;
     left: 0;
     font-size: 40px;
+    font-weight:1000;
     cursor: default;
   }
 
-  .iOrangered {
-    color: orangered
+  .isCollect {
+    color: gold
   }
 </style>

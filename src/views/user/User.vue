@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="w2">
       <user-info></user-info>
       <user-collect></user-collect>
       <user-question></user-question>

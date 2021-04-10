@@ -1,6 +1,7 @@
 <template>
   <div class="topic">
-    <topic-item v-for="value in 10"></topic-item>
+    <topic-item v-for="(value,index) in $store.state.topicList" :key="index"
+    :topic-list-item="value" ></topic-item>
   </div>
 </template>
 
@@ -10,13 +11,16 @@
 export default {
   components:{
       TopicItem
+  },
+  props:{
+    topicList:Array
   }
 }
 </script>
  
 <style scoped>
 .topic{
-    width:1000px;
+    width:800px;
     margin:0 auto;
 }
 </style>

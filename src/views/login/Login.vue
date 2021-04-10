@@ -1,177 +1,201 @@
 <template>
-    <div class="login">
-        <div class="logo"></div>
-        <form action="/user/login" method="post">
-            <ul>
-                <li class="username">
-                    <label for="Username">用户名：</label>
-                    <input type="text" id="Username" name="User_Name" 
-                    @input="getUsernameValueAndJudge()"
-                        @focus="showUsernameTag()"
-                        autocomplete="off">
-                </li>
+  <div class="login">
+    <div class="logo"></div>
+    <form>
+      <ul>
+        <li class="username">
+          <label for="Username">用户名：</label>
+          <input type="text" id="Username" name="User_Name" @input="getUsernameValueAndJudge()"
+            @focus="showUsernameTag()" @blur="getUsernameValueAndJudge()" autocomplete="off">
+        </li>
 
-                <li class="username-tag">
-                    <p v-if="usernameSuccess" class="username-success">输入符合要求</p>
-                    <p v-else-if="usernameError" class="username-error">输入不符要求</p>
-                    <p v-else>请输入长度为5-20位的数字或字母</p>
-                </li>
+        <li class="username-tag">
+          <p v-if="usernameSuccess" class="username-success">输入格式符合要求</p>
+          <p v-else-if="usernameError" class="username-error">输入格式不符要求</p>
+          <p v-else>请输入长度为5-20位的数字或字母</p>
+        </li>
 
-                <li class="password">
-                    <label for="Password">密码：</label>
-                    <input type="password" id="Password" name="Pass_Word" 
-                    @input="getPasswordValueAndJudge()"
-                        @focus="showPasswordTag()"
-                        autocomplete="off">
-                </li>
+        <li class="password">
+          <label for="Password">密码：</label>
+          <input type="password" id="Password" name="Pass_Word" @input="getPasswordValueAndJudge()"
+            @focus="showPasswordTag()" @blur="getPasswordValueAndJudge()" autocomplete="off">
+        </li>
 
-                <li class="password-tag">
-                    <p v-if="passwordSuccess" class="password-success">输入符合要求</p>
-                    <p v-else-if="passwordError" class="password-error">输入不符要求</p>
-                    <p v-else>请输入正确的密码</p>
-                </li>
-            </ul>
-            <div class="login-bottom">
-                <input type="submit" value="登录">
-                <div class="remember"><input type="checkbox">记住我</div>
-                <p>没有账号?去<router-link to="/register"><span>注册</span></router-link>
-                </p>
-            </div>
+        <li class="password-tag">
+          <p v-if="passwordSuccess" class="password-success">输入格式符合要求</p>
+          <p v-else-if="passwordError" class="password-error">输入格式不符要求</p>
+          <p v-else>请输入正确的密码</p>
+        </li>
+      </ul>
+      <div class="login-bottom">
+        <input type="button" value="登录" @click="loginSubmit()"  :disabled="isDisabled">
+        <p>没有账号?去<router-link to="/register"><span>注册</span></router-link>
+        </p>
+      </div>
 
-        </form>
-    </div>
+    </form>
+  </div>
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                usernameValue: '',
-                usernameSuccess: false,
-                usernameError: false,
-                passwordValue: '',
-                passwordSuccess: false,
-                passwordError: false,
-                reg: /^[0-9a-zA-Z]{5,20}$/
-            }
-        },
+  import {
+    mapMutations
+  } from "vuex";
+  import {
+    postUserLogin,
+    getUserData
+  } from 'network/userRequest.js'
+  import {
+    tokenSignTime
+  } from 'common/tokenSignTime.js'
+  import {
+    userLoginRegister
+  } from 'common/mixin.js'
 
-        methods: {
-           
-            getUsernameValueAndJudge() {
-                this.usernameValue = document.querySelector('#Username').value
-                if (this.reg.test(this.usernameValue)) this.usernameSuccess = true
-                else if (!this.reg.test(this.usernameValue)) this.usernameError = true
-            },
-            showUsernameTag() {
-                this.usernameSuccess = false
-                this.usernameError = false
-            },
-            getPasswordValueAndJudge() {
-                this.passwordValue = document.querySelector('#Password').value
-                if (this.reg.test(this.passwordValue)) this.passwordSuccess = true
-                else if (!this.reg.test(this.passwordValue)) this.passwordError = true
-            },
-            showPasswordTag() {
-                this.passwordSuccess = false
-                this.passwordError = false
-            }
-        },
+  export default {
+    mixins: [userLoginRegister],
+    data() {
+      return {
+        userToken: ''
+      }
+    },
+    methods: {
+      ...mapMutations(['changeLogin']),
+      removeToken() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('username');
+        localStorage.removeItem('signTime');
+      },
+      loginSubmit() {
+        getUserData().then(userList => {
+          if (userList.some(value => value.username === this.usernameValue &&
+              value.password === this.passwordValue)) {
+            postUserLogin(this.usernameValue, this.passwordValue).then(res => {
+              //返回{token:xxxxx} console.log(res)
+              //token加在请求头中才有权限请求到后台的数据，但此处是在响应拦截器中获取token
+            this.$toast.show("登录成功!", 2000)
+                         
+              this.userToken = res.token;
+              // 将用户信息保存到vuex中
+              this.changeLogin({
+                token: this.userToken,
+                username: this.usernameValue,
+                signTime: new Date().getTime()
+              });
+              this.$router.push('/home');
+              tokenSignTime()
+            })
+          } else if (!userList.some(value => value.username === this.usernameValue)) {
+            this.$toast.show("用户不存在!", 2000)
+            this.removeToken()
+          } else {
+            this.$toast.show("密码错误!", 2000)
+            this.removeToken()
+          }
+        })
+      }
+    },
+    computed: {
+      isDisabled() {
+        if (this.usernameSuccess && this.passwordSuccess === true)
+          return false
+        else {
+          return true
+        }
+      }
     }
+  }
 </script>
 
 <style scoped>
-    .login {
-        margin: 100px auto;
-        width: 400px;
-        height: 350px;
-        border: 5px solid var(--color-school);
-        box-shadow: 5px 5px 5px 2px var(--color-shadow);
-    }
+  .login {
+    margin: 100px auto;
+    width: 400px;
+    height: 350px;
+    border: 5px solid var(--color-school);
+    box-shadow: 5px 5px 5px 2px var(--color-shadow);
+  }
 
-    .logo {
-        height: 100px;
-        background: url(~assets/img/logo/logo2.png) no-repeat 100px 15px;
-        background-size: 200px 80px;
-        margin-bottom: 30px
-    }
+  .logo {
+    height: 100px;
+    background: url(~assets/img/logo/logo2.png) no-repeat 100px 15px;
+    background-size: 200px 80px;
+    margin-bottom: 30px
+  }
 
-    li:nth-child(2n+1) {
-        margin-top: 10px;
-        margin-left: 40px;
-    }
+  li:nth-child(2n+1) {
+    margin-top: 10px;
+    margin-left: 40px;
+  }
 
-    li:nth-child(2n) {
-        margin-top: 5px;
-        text-align: center;
-        font-size: 13px;
-        color: gray
-    }
+  li:nth-child(2n) {
+    margin-top: 5px;
+    text-align: center;
+    font-size: 13px;
+    color: gray
+  }
 
-    .username-success,
-    .password-success {
-        color: green;
-    }
+  .username-success,
+  .password-success {
+    color: green;
+  }
 
-    .username-error,
-    .password-error {
-        color: red;
-    }
+  .username-error,
+  .password-error {
+    color: red;
+  }
 
-    li label {
-        display: inline-block;
-        width: 80px;
-        text-align: right;
-        font-weight: 700;
-    }
+  li label {
+    display: inline-block;
+    width: 80px;
+    text-align: right;
+    font-weight: 700;
+  }
 
-    li input {
-        width: 200px;
-        height: 30px;
-        border: 1px solid var(--color-school);
-        padding: 0 5px;
-    }
-    .username-success,
-    .password-success {
-        color: green;
-    }
+  li input {
+    width: 200px;
+    height: 30px;
+    border: 1px solid var(--color-school);
+    padding: 0 5px;
+  }
 
-    .username-error,
-    .password-error {
-        color: red;
-    }
-    input[type="submit"] {
-        margin-bottom: 10px;
-        width: 150px;
-        height: 30px;
-        line-height: 30px;
-        text-align: center;
-        color: white;
-        font-weight: 700;
-        background-color: var(--color-school);
-    }
+  .username-success,
+  .password-success {
+    color: green;
+  }
 
+  .username-error,
+  .password-error {
+    color: red;
+  }
 
-    p {
-        margin-top: 5px;
-        text-align: center;
-    }
+  input[type="button"] {
+    margin-bottom: 10px;
+    width: 150px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    color: white;
+    font-weight: 700;
+    background-color: var(--color-school);
+  }
 
-    p span {
-        color: var(--color-school);
-        font-weight: 700;
-    }
+  input[type="button"]:hover {
+    font-size: 18px
+  }
 
-    .login-bottom {
-        margin-top: 10px;
-        text-align: center;
-    }
+  p {
+    margin-top: 5px;
+    text-align: center;
+  }
 
-    .remember {
-        font-size: 15px;
-    }
+  p span {
+    color: var(--color-school);
+    font-weight: 700;
+  }
 
-    .remember input {
-        vertical-align: middle;
-    }
+  .login-bottom {
+    margin-top: 10px;
+    text-align: center;
+  }
 </style>

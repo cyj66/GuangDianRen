@@ -1,7 +1,7 @@
 <template>
     <div>
-        <enterprise-item class="enterprise-item" v-for="(value,index) in enterpriseData" 
-                        :key="index" :enterprise-value="value">
+        <enterprise-item class="enterprise-item" v-for="(value,index) in enterpriseList" 
+                        :key="index" :enterprise-list-item="value">
         </enterprise-item>
     </div>
 </template>
@@ -13,7 +13,7 @@
             EnterpriseItem
         },
         props:{
-            enterpriseData:Array
+            enterpriseList:Array
         }
     }
 </script>

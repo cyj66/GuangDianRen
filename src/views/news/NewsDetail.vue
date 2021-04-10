@@ -28,7 +28,7 @@
     created() {
       getNewsData().then(res => {
         for (let value of res) {
-          if (value.id.toString() === this.$route.params.id) {
+          if (value.newsId.toString() === this.$route.params.id) {
             this.newsListItem = value;
             return
             //console.log(typeof(value.id))   number

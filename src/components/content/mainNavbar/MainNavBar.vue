@@ -16,7 +16,7 @@
         <template v-slot:search>
             <div class="main-search">
                 <input type="text" placeholder="暨南大学的光电工程系究竟怎么样？" />
-                <button>搜索</button>
+                <button>搜问题</button>
             </div>
         </template>
         <template v-slot:user>
@@ -61,12 +61,12 @@
                 isShowDialog: false,
                 activeIndex: 0,
                 messageCount: 100,
-                isShowSpan:true
+                isShowSpan: true
             }
         },
         created() {
             if (this.messageCount > 99) this.messageCount = '99+'
-            else if (this.messageCount ===0) this.isShowSpan=false
+            else if (this.messageCount === 0) this.isShowSpan = false
         },
         methods: {
             logoClick() {
@@ -85,7 +85,11 @@
                 this.$router.push('/user');
             },
             logoutClick() {
-                this.$router.replace('/login');
+                localStorage.removeItem('token');
+                localStorage.removeItem('username');
+                localStorage.removeItem('signTime');
+                this.$router.push('/login');
+                location.reload()
             }
         },
         watch: {
@@ -168,7 +172,7 @@
         position: absolute;
         top: 0;
         right: -20px;
-        width: 50px;
+        width: 80px;
         height: 34px;
         background-color: var(--color-school);
         border: 2px solid var(--color-school);

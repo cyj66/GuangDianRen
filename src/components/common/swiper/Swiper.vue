@@ -129,9 +129,6 @@
 
 <style scoped>
   .my-swiper {
-    width: 500px;
-    height: 300px;
-    margin: 0 auto;
     overflow: hidden;
     position: relative;
   }
@@ -149,10 +146,10 @@
   }
 
   .indicator-item {
-    width: 10px;
-    height: 10px;
+    width: 15px;
+    height: 15px;
     border-radius: 50%;
-    background-color: #ccc;
+    background-color: #fff;
     margin: 0 5px;
   }
 
@@ -165,14 +162,14 @@
     position: absolute;
     top: 50%;
     right: 0px;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    font-size: 20px;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 30px;
     font-weight: 700;
     text-align: center;
     color: var(--color-school);
-    background-color: rgba(200,200,200,0.6);
+    background-color: #fff;
     cursor: pointer;
   }
 
