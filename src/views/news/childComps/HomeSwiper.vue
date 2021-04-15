@@ -31,7 +31,8 @@ export default {
 .home-swiper h2{
     position:absolute;
     top:0;
-    padding:10px;
+    padding:5px;
+    font-size:20px;
     background-color:#fff; 
     color:var(--color-school)
 }

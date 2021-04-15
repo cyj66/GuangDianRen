@@ -1,7 +1,9 @@
 <template>
   <div class="w1">
-    <enterprise-content :enterprise-list="enterpriseList"
-     v-if="this.$store.state.enterpriseCollectList.length"></enterprise-content>
+    <enterprise-content
+      :enterprise-list="enterpriseList"
+      v-if="$store.state.enterpriseCollectList.length"
+    ></enterprise-content>
   </div>
 </template>
 
@@ -13,12 +15,9 @@ import {
   getEnterpriseCollectData,
 } from "network/enterpriseRequest.js";
 
-import { keepScrollPosition } from "common/mixin.js";
-
 export default {
-  mixins:[keepScrollPosition],
   components: {
-    EnterpriseContent
+    EnterpriseContent,
   },
   data() {
     return {
@@ -37,7 +36,7 @@ export default {
           enterpriseCollectList.push(item);
         }
       }
-      this.$store.state.enterpriseCollectList = enterpriseCollectList;
+      this.$store.commit("changeEnterpriseCollectList", enterpriseCollectList);
     });
   },
 };

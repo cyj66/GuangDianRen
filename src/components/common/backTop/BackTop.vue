@@ -59,6 +59,7 @@
     position: fixed;
     right: 20px;
     bottom: 20px;
+    z-index:999
   }
 
   .back-top i {

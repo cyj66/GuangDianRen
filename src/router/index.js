@@ -3,9 +3,9 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 const Home = () => import('views/home/Home.vue')
-const TopicDetail = () => import('views/home/TopicDetail.vue')
+const TopicDetail = () => import('views/topicDetail/TopicDetail.vue')
 const News = () => import('views/news/News.vue')
-const NewsDetail = () => import('views/news/NewsDetail.vue')
+const NewsDetail = () => import('views/newsDetail/NewsDetail.vue')
 const Enterprise = () => import('views/enterprise/Enterprise.vue')
 const Message = () => import('views/message/Message.vue')
 const User = () => import('views/user/User.vue')
@@ -46,13 +46,15 @@ const routes = [{
         path: '/register',
         component: Register
     },
+    //params动态传参
     {
         path: '/newsdetail/:id',
         component: NewsDetail
     },
+    //query动态传参
     {
-        path:'/topicdetail',
-        component:TopicDetail
+        path: '/topicdetail',
+        component: TopicDetail
     },
     {
         path: '*',

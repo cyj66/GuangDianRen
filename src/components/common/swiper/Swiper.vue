@@ -162,10 +162,10 @@
     position: absolute;
     top: 50%;
     right: 0px;
-    width: 50px;
-    height: 50px;
-    line-height: 50px;
-    font-size: 30px;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 20px;
     font-weight: 700;
     text-align: center;
     color: var(--color-school);

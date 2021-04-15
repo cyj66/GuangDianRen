@@ -11,12 +11,14 @@ const store = new Vuex.Store({
     signTime: localStorage.getItem('signTime') ? localStorage.getItem('signTime') : '',
 
     newsCollectList: [],
-    enterpriseCollectList: [],
-    topicList: [],
+    enterpriseCollectList: [],   
+    topicList:[],
     topicLikeList: [],
     topicCollectList: [],
-    answerList: [],
-    answerLikeList: []
+    answerLikeList: [],
+
+    messageCount: 0,
+    searchTopicValue:''
   },
   mutations: {
     oppositeIsSchool(state) {
@@ -30,6 +32,30 @@ const store = new Vuex.Store({
       localStorage.setItem('username', state.username);
       localStorage.setItem('token', state.token);
       localStorage.setItem('signTime', state.signTime);
+    },
+    changeNewsCollectList(state,payload) {
+      state.newsCollectList=payload
+    },
+    changeEnterpriseCollectList(state, payload) {
+      state.enterpriseCollectList=payload
+    },
+    changeTopicList(state, payload) {
+      state.topicList=payload
+     },
+    changeTopicLikeList(state, payload) {
+      state.topicLikeList=payload
+    },
+    changeTopicCollectList(state,payload) {
+      state.topicCollectList=payload
+    },
+    changeAnswerLikeList(state, payload) {
+      state.answerLikeList=payload
+    },
+    changeMessageCount(state, payload) {
+      state.messageCount=payload
+    },
+    changeSearchTopicValue(state, payload) {
+      state.searchTopicValue=payload
     }
   }
 })

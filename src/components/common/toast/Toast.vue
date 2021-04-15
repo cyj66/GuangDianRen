@@ -13,7 +13,7 @@
         },
         methods: {
             // 给个2000默认值
-            show(message, duration=1500) {
+            show(message, duration=1000) {
                 // duration=duration||2000
                 this.isShow = true;
                 this.message = message;

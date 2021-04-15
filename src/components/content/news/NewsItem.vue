@@ -1,20 +1,29 @@
 <template>
-    <div class="item" v-show="isNewsItemShow()">
-        <div class="item-img">
-            <img :src="newsListItem.image" :alt="newsListItem.title">
-        </div>
-        <div class="item-artical" @click="newsItemClick">
-            <h3>{{newsListItem.title}}</h3>
-            <p v-html="newsListItem.content"></p>
-        </div>
-        <i class="iconfont"  @selectstart="selectStart($event)"
-            :class="{isCollect:isCollect}" @click="collectNews()">&#xe66f;</i>
-        <span class="news-item-date">{{newsListItem.date}}</span>
+  <div class="item" v-show="isNewsItemShow()">
+    <div class="item-img">
+      <img :src="newsListItem.image" :alt="newsListItem.title" />
     </div>
+    <div class="item-artical" @click="newsItemClick">
+      <h3>{{ newsListItem.title }}</h3>
+      <p v-html="newsListItem.content"></p>
+    </div>
+    <i
+      class="iconfont"
+      @selectstart="selectStart($event)"
+      :class="{ isCollect: isCollect }"
+      @click="collectNews()"
+      >&#xe66f;</i
+    >
+    <span class="news-item-date">{{
+      newsListItem.date | formatDateFilter
+    }}</span>
+  </div>
 </template>
 
 <script>
 import { saveNewsCollect, removeNewsCollect } from "network/newsRequest.js";
+
+import { formatDate } from "common/utils.js";
 
 export default {
   components: {},
@@ -27,9 +36,9 @@ export default {
     newsListItem: Object,
   },
   created() {
-      this.isCollect = this.$store.state.newsCollectList.some(
-        (value) => value.newsId === this.newsListItem.newsId
-      )
+    this.isCollect = this.$store.state.newsCollectList.some(
+      (value) => value.newsId === this.newsListItem.newsId
+    );
   },
   methods: {
     newsItemClick() {
@@ -40,7 +49,10 @@ export default {
       e.preventDefault();
     },
     isNewsItemShow() {
-      if (this.newsListItem.isSchool === this.$store.state.isSchool)
+      if (
+        this.newsListItem.isSchool === this.$store.state.isSchool ||
+        this.newsListItem.user === true
+      )
         return true;
       else return false;
     },
@@ -49,15 +61,26 @@ export default {
         saveNewsCollect(
           this.newsListItem.newsId,
           this.$store.state.username
-        ).then((this.isCollect = true));
-        this.$toast.show("收藏成功!");
+        ).then((res) => {
+          this.$toast.show("收藏成功!");
+          this.isCollect = true;
+        });
       } else {
         removeNewsCollect(
           this.newsListItem.newsId,
           this.$store.state.username
-        ).then((this.isCollect = false));
-        this.$toast.show("取消收藏成功!");
+        ).then((res) => {
+          this.$toast.show("取消收藏成功!");
+          this.isCollect = false;
+          if (this.newsListItem.user) this.$router.go(0);
+        });
       }
+    },
+  },
+  filters: {
+    formatDateFilter(value) {
+      const time = new Date(Number(value)); //以毫秒形式呈现
+      return formatDate(time);
     },
   },
 };

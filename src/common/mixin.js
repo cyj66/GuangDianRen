@@ -1,18 +1,4 @@
 
-export const keepScrollPosition = {
-  data() {
-    return {
-      scrollY: 0
-    }
-  },
-  activated() {
-    window.scroll(0, this.scrollY)
-  },
-  deactivated() {
-    this.scrollY = window.pageYOffset;
-  }
-}
-
 export const userLoginRegister = {
   data() {
     return {
