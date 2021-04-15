@@ -249,7 +249,7 @@ export default {
 }
 
 .topic-item h2 {
-  width: 800px;
+  width: 700px;
   padding-bottom: 20px;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -262,6 +262,7 @@ export default {
   color: var(--color-school);
   cursor: pointer;
 }
+
 .topic-title:hover {
   text-decoration: underline;
   cursor: pointer;

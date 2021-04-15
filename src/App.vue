@@ -20,6 +20,9 @@ export default {
       isRouterAlive: true,
     };
   },
+  created(){
+    
+  },
   components: {
     MainNavBar,
     BackTop,
@@ -65,7 +68,7 @@ export default {
 @import "~assets/css/normalize.css";
 @import "~assets/css/base.css";
 @import url(~assets/font/iconfont.css);
+#app{
 
-#app {
 }
 </style>
