@@ -27,7 +27,6 @@
       <ul class="main-user">
         <li>
           <i class="iconfont" @click="messageClick"> &#xe679;</i>
-          <span v-show="isShowSpan">{{ $store.state.messageCount | formateMessageCount}}</span>
         </li>
         <li><i @click="showDialog" class="iconfont">&#xe682;</i></li>
       </ul>
@@ -114,17 +113,7 @@ export default {
           break;
       }
     },
-    'this.$store.state.messageCount'(){
-      if(this.$store.state.messageCount===0) this.isShowSpan=false
-    }
   },
-  filters:{
-    formateMessageCount(value){
-      if(value===0) return ''
-      else if(value>99) return '99+'
-      else return value
-    }
-  }
 };
 </script>
 

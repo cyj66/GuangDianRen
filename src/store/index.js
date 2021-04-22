@@ -17,7 +17,6 @@ const store = new Vuex.Store({
     topicCollectList: [],
     answerLikeList: [],
 
-    messageCount: 0,
     searchTopicValue:''
   },
   mutations: {
@@ -50,9 +49,6 @@ const store = new Vuex.Store({
     },
     changeAnswerLikeList(state, payload) {
       state.answerLikeList=payload
-    },
-    changeMessageCount(state, payload) {
-      state.messageCount=payload
     },
     changeSearchTopicValue(state, payload) {
       state.searchTopicValue=payload

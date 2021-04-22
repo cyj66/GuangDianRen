@@ -33,8 +33,8 @@
       </div>
       <hr v-if="answerCount" />
       <p class="iconfont topic-answer" v-if="answerCount !== 0">
-        <span class="user-ID">{{ answerNew.username }}</span
-        >{{ answerNew.content }}
+        <span class="user-ID">{{ answerNew.username }}</span>
+        <span class="answernew-content">{{ answerNew.content }}</span>
       </p>
     </div>
   </div>
@@ -212,7 +212,7 @@ export default {
       let value=this.$store.state.searchTopicValue.trim()
       if ( value==='') return true;
       else {
-        let reg =new RegExp(value)
+        let reg =new RegExp(value,'i')
         if (reg.test(this.topicListItem.title)) return true;
         else return false;
       }
@@ -232,7 +232,7 @@ export default {
   position: relative;
   width: 100%;
   margin: 50px auto;
-  padding: 10px 10px 40px;
+  padding: 10px 10px 20px;
   box-shadow: 5px 5px 5px 5px var(--color-shadow);
 }
 
@@ -314,5 +314,8 @@ export default {
 }
 .add-answer button:hover {
   font-size: 18px;
+}
+.topic-answer .answernew-content {
+  line-height:25px
 }
 </style>

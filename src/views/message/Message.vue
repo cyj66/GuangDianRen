@@ -28,7 +28,6 @@ import { getTopicData, getTopicLikeData } from "network/topicRequest.js";
 
 import { bubbleTime } from "common/utils.js";
 
-import {mapMutations} from "vuex"
 
 
 export default {
@@ -48,11 +47,7 @@ export default {
       this.getLikeMyAnswerList();
       this.getAnswerMyTopicList();
   },
-  destroyed() {
-    this.changeMessageCount(0)
-  },
   methods: {
-    ...mapMutations(["changeMessageCount"]),
     getLikeMyTopicList() {
       getTopicData().then((res1) => {
         getTopicLikeData().then((res2) => {
@@ -68,8 +63,6 @@ export default {
                   obj.date = res2[j].date;
                   obj.topicId = res1[i].topicId;
                   likeMyTopicList.push(obj);
-                  if (obj.date > Number(this.$store.state.signTime))
-                    this.messageCount++;
                 }
               }
             }
@@ -93,8 +86,6 @@ export default {
                   obj.date = res2[j].date;
                   obj.topicId = res1[i].topicId;
                   likeMyAnswerList.push(obj);
-                  if (obj.date > Number(this.$store.state.signTime))
-                    this.messageCount++;
                 }
               }
             }
@@ -119,8 +110,6 @@ export default {
                   obj.date = item2.date;
                   obj.topicId = item1.topicId;
                   answerMyTopicList.push(obj);
-                  if (obj.date > Number(this.$store.state.signTime))
-                    this.messageCount++;
                 }
               }
             }

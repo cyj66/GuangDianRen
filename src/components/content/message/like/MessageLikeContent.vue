@@ -1,14 +1,14 @@
 <template>
   <div class="message-like-content">
-    <like-list v-for="(value,index) in likeMyTopicList||likeMyAnswerList" :key="index"
-    :like-my-item="value"></like-list>
+    <like-item v-for="(value,index) in likeMyTopicList||likeMyAnswerList" :key="index"
+    :like-my-item="value"></like-item>
   </div>
 </template>
 
 <script>
-import LikeList from "./MessageLikeList.vue"
+import LikeItem from "./MessageLikeItem.vue"
 export default {
-  components: {LikeList},
+  components: {LikeItem},
   props: {
     likeMyTopicList:Array,
     likeMyAnswerList:Array

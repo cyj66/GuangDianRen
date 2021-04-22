@@ -25,7 +25,7 @@ export default {
   height:300px;
   background:url(~assets/img/logo/bg.png) no-repeat;
   color:white;
-  font-weight:700
+  font-weight:600
 }
 .bottom ul{
   position:absolute;
@@ -34,6 +34,7 @@ export default {
 }
 .bottom ul li{
   margin:10px;
+  font-size:20px
 }
 .bottom img{
   position:absolute;

@@ -28,8 +28,6 @@ import { getAnswerData, getAnswerLikeData } from "network/answerRequest.js";
 
 import { bubbleTime } from "common/utils.js";
 
-import { mapMutations } from "vuex";
-
 export default {
   name: "Home",
   data() {

@@ -1,7 +1,7 @@
 <template>
   <div class="answer-item">
     <span class="user-ID">{{ answerListItem.username }}</span>
-    {{ answerListItem.content }}
+    <span class="answer-content">{{ answerListItem.content }}</span>
     <i class="iconfont" :class="{ isLike: isLike }" @click="likeAnswer()"
       >&#xe675;{{ answerListItem.like }}</i
     >
@@ -96,5 +96,8 @@ export default {
 }
 .answer-item .isLike {
   background-color: gold;
+}
+.answer-item .answer-content{
+  line-height:30px;
 }
 </style>

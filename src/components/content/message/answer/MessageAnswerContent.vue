@@ -1,19 +1,19 @@
 <template>
   <div class="message-answer-content">
-    <answer-list
+    <answer-item
       v-for="(value, index) in answerMyTopicList"
       :key="index"
       :answer-my-topic-item="value"
-    ></answer-list>
+    ></answer-item>
   </div>
 </template>
 
 <script>
-import AnswerList from './MessageAnswerList.vue'
+import AnswerItem from './MessageAnswerItem.vue'
 
 export default {
   components: {
-    AnswerList
+    AnswerItem
   },
   props: {
       answerMyTopicList:Array

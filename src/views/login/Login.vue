@@ -69,9 +69,6 @@ import { mapMutations } from "vuex";
 
 import { postUserLogin, getUserData } from "network/userRequest.js";
 
-import { getAnswerData, getAnswerLikeData } from "network/answerRequest.js";
-import { getTopicData, getTopicLikeData } from "network/topicRequest.js";
-
 import { tokenSignTime } from "common/tokenSignTime.js";
 import { userLoginRegister } from "common/mixin.js";
 
@@ -80,12 +77,11 @@ export default {
   data() {
     return {
       userToken: "",
-      messageCount: 0,
     };
   },
 
   methods: {
-    ...mapMutations(["changeLogin", "changeMessageCount"]),
+    ...mapMutations(["changeLogin"]),
     removeToken() {
       localStorage.removeItem("token");
       localStorage.removeItem("username");
@@ -94,17 +90,12 @@ export default {
     loginSubmit() {
       getUserData().then((userList) => {
         if (
-          userList.some(
-            (value) =>
-              value.username === this.usernameValue &&
-              value.password === this.passwordValue
-          )
+          userList.some((value) =>value.username === this.usernameValue &&value.password === this.passwordValue)
         ) {
           postUserLogin(this.usernameValue, this.passwordValue).then((res) => {
             //返回{token:xxxxx} console.log(res)
             //token加在请求头中才有权限请求到后台的数据，但此处是在响应拦截器中获取token
             this.$toast.show("登录成功!", 2000);
-
             this.userToken = res.token;
             // 将用户信息保存到vuex中
             this.changeLogin({
@@ -112,12 +103,7 @@ export default {
               username: this.usernameValue,
               signTime: new Date().getTime(),
             });
-            this.getLikeMyTopicList();
-            this.getLikeMyAnswerList();
-            this.getAnswerMyTopicList();
             setTimeout(() => {
-              this.changeMessageCount(this.messageCount);
-              console.log(this.$store.state.messageCount);
               this.$router.push("/home");
               tokenSignTime();
             }, 1000);
@@ -128,59 +114,9 @@ export default {
           this.$toast.show("用户不存在!", 2000);
           this.removeToken();
         } else {
-          this.$toast.show("密码错误!", 2000);
+          this.$toast.show("用户名或者密码错误!", 2000);
           this.removeToken();
         }
-      });
-    },
-
-    //获取消息数量
-    getLikeMyTopicList() {
-      getTopicData().then((res1) => {
-        getTopicLikeData().then((res2) => {
-          for (let i = 0; i < res1.length; i++) {
-            if (res1[i].username === this.$store.state.username) {
-              for (let j = 0; j < res2.length; j++) {
-                if (res2[j].topicId === res1[i].topicId) {
-                  if (res2[j].date > Number(this.$store.state.signTime))
-                    this.messageCount++;
-                }
-              }
-            }
-          }
-        });
-      });
-    },
-    getLikeMyAnswerList() {
-      getAnswerData().then((res1) => {
-        getAnswerLikeData().then((res2) => {
-          for (let i = 0; i < res1.length; i++) {
-            if (res1[i].username === this.$store.state.username) {
-              for (let j = 0; j < res2.length; j++) {
-                if (res2[j].answerId === res1[i].answerId) {
-                  if (res2[j].date > Number(this.$store.state.signTime))
-                    this.messageCount++;
-                }
-              }
-            }
-          }
-        });
-      });
-    },
-    getAnswerMyTopicList() {
-      getTopicData().then((res1) => {
-        getAnswerData().then((res2) => {
-          for (let item1 of res1) {
-            if (item1.username === this.$store.state.username) {
-              for (let item2 of res2) {
-                if (item1.topicId === item2.topicId) {
-                  if (item2.date > Number(this.$store.state.signTime))
-                    this.messageCount++;
-                }
-              }
-            }
-          }
-        });
       });
     },
   },
