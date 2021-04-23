@@ -3,7 +3,7 @@
     <home-swiper :banners="banners"></home-swiper>
     <news-content
       :news-list="newsList"
-      v-if="this.$store.state.newsCollectList.length"
+      v-if="flag"
     ></news-content>
     <switch-control
       @click.native="newsSwitch"
@@ -54,6 +54,7 @@ export default {
           link: "https://gdgcx.jnu.edu.cn/main.htm",
         },
       ],
+      flag:false
     };
   },
   created() {
@@ -69,6 +70,7 @@ export default {
         }
       }
       this.$store.commit("changeNewsCollectList", newsCollectList);
+      this.flag=true
     });
   },
   mounted() {

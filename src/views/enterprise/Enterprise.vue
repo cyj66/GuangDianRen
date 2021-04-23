@@ -2,7 +2,7 @@
   <div class="w1">
     <enterprise-content
       :enterprise-list="enterpriseList"
-      v-if="$store.state.enterpriseCollectList.length"
+      v-if="flag"
     ></enterprise-content>
   </div>
 </template>
@@ -22,6 +22,7 @@ export default {
   data() {
     return {
       enterpriseList: [],
+      flag:false
     };
   },
   created() {
@@ -37,6 +38,7 @@ export default {
         }
       }
       this.$store.commit("changeEnterpriseCollectList", enterpriseCollectList);
+      this.flag=true
     });
   },
 };

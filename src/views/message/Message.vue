@@ -11,7 +11,7 @@
       :like-my-answer-list="likeMyAnswerList"
       v-if="likeMyAnswerList.length"
     ></like-content>
-    <h2 class="iconfont">二、收到的回答 &#xe675;</h2>
+    <h2 class="iconfont">二、收到的回答 &#xe66c;</h2>
     <answer-content
       :answer-my-topic-list="answerMyTopicList"
       v-if="answerMyTopicList.length"

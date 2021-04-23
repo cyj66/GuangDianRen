@@ -44,6 +44,8 @@ import EnterpriseContent from "components/content/enterprise/EnterpriseContent";
 import NewsContent from "components/content/news/NewsContent";
 import TopicContent from "components/content/topic/TopicContent";
 
+import { bubbleTime } from "common/utils.js";
+
 export default {
   name: "User",
   components: {
@@ -56,7 +58,7 @@ export default {
       userNewsCollectList: [],
       userEnterpriseCollectList: [],
       userTopicCollectList: [],
-      userTopicList:[]
+      userTopicList: [],
     };
   },
   created() {
@@ -124,6 +126,7 @@ export default {
               }
             }
           }
+          bubbleTime(userTopicCollectList);
           this.userTopicCollectList = userTopicCollectList;
           this.$store.commit(
             "changeTopicCollectList",
@@ -141,6 +144,7 @@ export default {
             userTopicList.push(item);
           }
         }
+        bubbleTime(userTopicList);
         this.userTopicList = userTopicList;
         this.$store.commit("changeTopicList", this.userTopicList);
       });
@@ -160,22 +164,22 @@ export default {
   background-color: gold;
   color: var(--color-school);
 }
-.me h2{
-  margin:50px 0;
-  height:50px;
-  line-height:50px;
-  text-align:center;
-  font-size:30px;
-  color:gold;
+.me h2 {
+  margin: 50px 0;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 30px;
+  color: gold;
   background-color: var(--color-school);
 }
-.me h3{
-  margin:30px 0;
-  height:40px;
-  line-height:40px;
-  text-align:center;
-  font-size:25px;
-  color:gold;
+.me h3 {
+  margin: 30px 0;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  font-size: 25px;
+  color: gold;
   background-color: black;
 }
 </style>
